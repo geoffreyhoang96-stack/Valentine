@@ -143,9 +143,10 @@
         ];
 
         noBtn.addEventListener('click', () => {
+            if (noBtn.disabled) return; // Prevent double clicks during the pause
+            
             clickCount++;
 
-            // Update subtext messages
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
             }
@@ -158,11 +159,20 @@
             noBtn.style.fontSize = (currentFontSize + 15) + "px";
             noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
 
-            // If she clicks past the last message, it forces the Yes
+            // The Suspense Logic
             if (clickCount > messages.length) {
-                noBtn.innerText = "OKAY YES! ❤️";
-                noBtn.style.backgroundColor = "#ff4d6d";
-                setTimeout(celebrate, 500);
+                noBtn.disabled = true; // Disable so she can't click more
+                noBtn.innerText = "Processing..."; 
+                noBtn.style.backgroundColor = "#ffb3c1";
+                
+                // Wait 1.5 seconds (1500 milliseconds)
+                setTimeout(() => {
+                    noBtn.innerText = "OKAY YES! ❤️";
+                    noBtn.style.backgroundColor = "#ff4d6d";
+                    
+                    // Small extra delay to see the "OKAY YES" text before the hearts
+                    setTimeout(celebrate, 800);
+                }, 1500);
             }
         });
 
@@ -170,7 +180,6 @@
             mainUi.style.display = 'none';
             success.classList.remove('hidden');
             
-            // Start the heart shower
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤️';
