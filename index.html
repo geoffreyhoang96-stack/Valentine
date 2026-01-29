@@ -32,14 +32,18 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            display: flex;
-            gap: 6px;
+            display: flex; gap: 6px;
         }
 
         .dot { width: 10px; height: 10px; border-radius: 50%; }
         .r { background: #ff5f56; } .y { background: #ffbd2e; } .g { background: #27c93f; }
 
-        .logo { font-size: 50px; margin-top: 10px; }
+        .logo img {
+            width: 120px; height: 120px; 
+            border-radius: 50%; object-fit: cover; 
+            border: 3px solid #ff4d6d; margin-top: 10px;
+        }
+
         h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; }
         #subtext { color: #6c757d; font-size: 0.9rem; min-height: 1.2rem; }
 
@@ -49,7 +53,7 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            min-height: 100px;
+            flex-wrap: wrap; /* Allows the giant No button to expand */
         }
 
         button {
@@ -60,9 +64,10 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 16px;
+            white-space: nowrap;
         }
 
-        #yesBtn { background: #ff4d6d; color: white; position: relative; z-index: 100; }
+        #yesBtn { background: #ff4d6d; color: white; }
         #noBtn { background: #adb5bd; color: white; position: relative; }
 
         .hidden { display: none !important; }
@@ -89,9 +94,13 @@
             <div class="dot y"></div>
             <div class="dot g"></div>
         </div>
-        <div class="logo">💖</div>
+        
+        <div class="logo">
+            <img src="us.jpg" alt="💖">
+        </div>
+
         <h1>Will you be my Valentine, Yinya?</h1>
-        <p id="subtext">I have a very important question...</p>
+        <p id="subtext">Pick a button!</p>
         
         <div class="btn-container">
             <button id="yesBtn" onclick="celebrate()">Yes</button>
@@ -102,7 +111,7 @@
     <div id="success-screen" class="hidden">
         <h1 style="font-size: 3rem;">🥰</h1>
         <h1>YAY! I KNEW IT!</h1>
-        <p>You've made me the happiest person ever, Yinya! ❤️</p>
+        <p>You're stuck with me now, Yinya! ❤️</p>
     </div>
 
     <script>
@@ -115,49 +124,44 @@
         let clickCount = 0;
         const messages = [
             "Wait, what?",
-            "Are you sure, Yinya? 🥺",
-            "Think about the snacks!",
-            "I'll be very sad...",
-            "REALLY? Last chance!",
-            "Okay, that's it."
+            "Are you sure? 🥺",
+            "It's getting bigger...",
+            "Yinya, stop! 😂",
+            "I'm warning you...",
+            "YOU CAN'T MISS IT NOW!"
         ];
 
         noBtn.addEventListener('click', () => {
             clickCount++;
 
-            if (clickCount < messages.length) {
-                subtext.innerText = messages[clickCount];
+            if (clickCount <= 6) {
+                // Change text
+                subtext.innerText = messages[clickCount - 1] || "Just click Yes!";
+
+                // NO button gets HUGE
+                let currentSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+                let currentPaddingH = parseFloat(window.getComputedStyle(noBtn).paddingLeft);
+                let currentPaddingV = parseFloat(window.getComputedStyle(noBtn).paddingTop);
+
+                noBtn.style.fontSize = (currentSize + 15) + "px";
+                noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
+                
+                // Shake the card a little because the button is heavy
+                mainUi.style.transform = `scale(${1 + (clickCount * 0.05)})`;
             }
 
-            // Make the YES button bigger
-            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-            yesBtn.style.fontSize = (currentSize + 15) + "px";
-            yesBtn.style.padding = (currentSize + 5) + "px " + (currentSize + 20) + "px";
-
-            // Teleport the No button
-            const maxX = window.innerWidth - noBtn.offsetWidth;
-            const maxY = window.innerHeight - noBtn.offsetHeight;
-            noBtn.style.position = "fixed";
-            noBtn.style.left = Math.random() * maxX + "px";
-            noBtn.style.top = Math.random() * maxY + "px";
-
-            // Turn "No" into "Yes" after enough tries
-            if (clickCount >= 6) {
-                noBtn.innerText = "Yes";
+            // On the 7th click, No becomes Yes and triggers success
+            if (clickCount >= 7) {
+                noBtn.innerText = "Okay, YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
-                noBtn.onclick = celebrate;
+                setTimeout(celebrate, 500);
             }
         });
 
-        // Ensure clicking Yes triggers the celebration
-        yesBtn.addEventListener('click', celebrate);
-
         function celebrate() {
-            mainUi.classList.add('hidden');
-            mainUi.style.display = 'none'; // Double security to hide it
+            mainUi.style.display = 'none';
             success.classList.remove('hidden');
             
-            // Heart shower effect
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤️';
