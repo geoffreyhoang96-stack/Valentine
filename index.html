@@ -145,25 +145,26 @@
         noBtn.addEventListener('click', () => {
             clickCount++;
 
+            // If we are still in the message cycle
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
+                
+                // GROW the No button
+                let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+                let currentPaddingV = parseFloat(window.getComputedStyle(noBtn).paddingTop);
+                let currentPaddingH = parseFloat(window.getComputedStyle(noBtn).paddingLeft);
+
+                noBtn.style.fontSize = (currentFontSize + 15) + "px";
+                noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
             }
 
-            // GROW the No button
-            let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-            let currentPaddingV = parseFloat(window.getComputedStyle(noBtn).paddingTop);
-            let currentPaddingH = parseFloat(window.getComputedStyle(noBtn).paddingLeft);
-
-            noBtn.style.fontSize = (currentFontSize + 15) + "px";
-            noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
-
-            // Instant surrender logic
+            // After the final message, the button just transforms and waits
             if (clickCount > messages.length) {
                 noBtn.innerText = "OKAY YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
                 
-                // Pause for 1 second just to let her see the "OKAY YES" text before it disappears
-                setTimeout(celebrate, 1000);
+                // IMPORTANT: This line makes the button run the celebration when she clicks it again
+                noBtn.onclick = celebrate;
             }
         });
 
