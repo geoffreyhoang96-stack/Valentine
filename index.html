@@ -143,8 +143,6 @@
         ];
 
         noBtn.addEventListener('click', () => {
-            if (noBtn.disabled) return; // Prevent double clicks during the pause
-            
             clickCount++;
 
             if (clickCount <= messages.length) {
@@ -159,20 +157,13 @@
             noBtn.style.fontSize = (currentFontSize + 15) + "px";
             noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
 
-            // The Suspense Logic
+            // Instant surrender logic
             if (clickCount > messages.length) {
-                noBtn.disabled = true; // Disable so she can't click more
-                noBtn.innerText = "Processing..."; 
-                noBtn.style.backgroundColor = "#ffb3c1";
+                noBtn.innerText = "OKAY YES! ❤️";
+                noBtn.style.backgroundColor = "#ff4d6d";
                 
-                // Wait 1.5 seconds (1500 milliseconds)
-                setTimeout(() => {
-                    noBtn.innerText = "OKAY YES! ❤️";
-                    noBtn.style.backgroundColor = "#ff4d6d";
-                    
-                    // Small extra delay to see the "OKAY YES" text before the hearts
-                    setTimeout(celebrate, 800);
-                }, 1500);
+                // Pause for 1 second just to let her see the "OKAY YES" text before it disappears
+                setTimeout(celebrate, 1000);
             }
         });
 
