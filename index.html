@@ -29,21 +29,11 @@
             border: 2px solid #ffb3c1;
         }
 
-        .header-bar {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            display: flex; gap: 6px;
-        }
-
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .r { background: #ff5f56; } .y { background: #ffbd2e; } .g { background: #27c93f; }
-
         .gif-container img {
             width: 100%;
             max-width: 250px;
             border-radius: 15px;
-            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
         h1 { color: #ff4d6d; font-size: 1.5rem; margin: 15px 0; }
@@ -64,7 +54,7 @@
             margin-top: 10px;
             display: flex;
             justify-content: center;
-            <img src="snoopy.gif" alt="Snoopy Dance">
+            align-items: center;
             gap: 15px;
             min-height: 120px;
         }
@@ -101,14 +91,8 @@
 <body>
 
     <div class="browser-card" id="main-ui">
-        <div class="header-bar">
-            <div class="dot r"></div>
-            <div class="dot y"></div>
-            <div class="dot g"></div>
-        </div>
-        
         <div class="gif-container">
-            <img src="https://media.tenor.com/97S9iP_6_8AAAAAi/snoopy-dance.gif" alt="Snoopy Dance">
+            <img src="https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUycGp5c2w0YWZmOHpxdGkzdDdrMmFhZ3d4c2hxM2h2ZXN0ZDFrNXRjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gpqk76tiVKjn2/giphy.gif" alt="Snoopy Dance">
         </div>
 
         <h1>Will you be my Valentine, Yinya?</h1>
@@ -128,7 +112,6 @@
 
     <script>
         const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
         const subtext = document.getElementById('subtext');
         const mainUi = document.getElementById('main-ui');
         const success = document.getElementById('success-screen');
@@ -145,25 +128,20 @@
         noBtn.addEventListener('click', () => {
             clickCount++;
 
-            // If we are still in the message cycle
+            // Handle the message cycle and growing
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
                 
-                // GROW the No button
                 let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-                let currentPaddingV = parseFloat(window.getComputedStyle(noBtn).paddingTop);
-                let currentPaddingH = parseFloat(window.getComputedStyle(noBtn).paddingLeft);
-
                 noBtn.style.fontSize = (currentFontSize + 15) + "px";
-                noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
+                noBtn.style.padding = (parseFloat(window.getComputedStyle(noBtn).paddingTop) + 10) + "px " + (parseFloat(window.getComputedStyle(noBtn).paddingLeft) + 20) + "px";
             }
 
-            // After the final message, the button just transforms and waits
+            // Transform the button on the final click
             if (clickCount > messages.length) {
                 noBtn.innerText = "OKAY YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
-                
-                // IMPORTANT: This line makes the button run the celebration when she clicks it again
+                // Now, when she clicks this specific button again, it triggers the celebrate function
                 noBtn.onclick = celebrate;
             }
         });
@@ -189,4 +167,3 @@
     </script>
 </body>
 </html>
-
