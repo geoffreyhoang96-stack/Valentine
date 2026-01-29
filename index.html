@@ -18,12 +18,12 @@
 
         .browser-card {
             background: white;
-            padding: 2.5rem;
+            padding: 1.5rem;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
             text-align: center;
-            width: 95%;
-            max-width: 450px;
+            width: 85%;
+            max-width: 400px;
             position: relative;
             z-index: 10;
             border: 2px solid #ffb3c1;
@@ -31,33 +31,32 @@
 
         .gif-container img {
             width: 100%;
-            max-width: 200px;
+            max-width: 180px;
             border-radius: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        h1 { color: #ff4d6d; font-size: 1.5rem; margin: 15px 0; }
+        h1 { color: #ff4d6d; font-size: 1.3rem; margin: 10px 0; }
         
         #subtext { 
             color: #6c757d; 
-            font-size: 1rem; 
+            font-size: 0.95rem; 
             font-weight: bold;
-            min-height: 5.5rem; 
+            min-height: 4.5rem; 
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 15px;
-            line-height: 1.4;
+            padding: 0 10px;
+            line-height: 1.3;
         }
 
         .btn-container {
-            margin-top: 10px;
+            margin-top: 15px;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Better for mobile growth */
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            min-height: 250px;
+            gap: 12px;
         }
 
         button {
@@ -66,29 +65,33 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s ease-out;
             font-size: 16px;
+            width: auto;
+            max-width: 100%; /* Prevents button from going off screen */
         }
 
-        #yesBtn { background: #ff4d6d; color: white; z-index: 1001; }
+        #yesBtn { background: #ff4d6d; color: white; z-index: 1001; order: 1; }
+        #noBtn { background: #adb5bd; color: white; z-index: 1000; order: 2; }
+
         .pulse { animation: pulse-red 1.5s infinite; }
 
         @keyframes pulse-red {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); }
         }
 
-        #noBtn { background: #adb5bd; color: white; z-index: 1000; position: relative; }
         .hidden { display: none !important; }
 
         #success-screen {
             text-align: center;
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 0 50px rgba(255, 77, 109, 0.4);
+            box-shadow: 0 0 40px rgba(255, 77, 109, 0.4);
             z-index: 2000;
+            width: 80%;
         }
 
         @keyframes floatUp {
@@ -129,41 +132,47 @@
         const messages = [
             "are you sure?",
             "PLEASE",
-            "PLEASSSSSSSSSSSSSEEEE ARE YOU SURE NO???",
+            "ARE YOU SURE NO???",
             "COME ON",
-            "LOVE FOR THAT LOVE FOR THAT LOVE FOR THAT",
+            "LOVE FOR THAT...",
             "Wait, think about it...",
             "What if I buy you snacks?",
             "Unlimited hugs??",
-            "P L E A S E??????",
-            "You're being so stubborn! 😂",
-            "COME ON DAWG",
-            "Okay, now you're just having fun with this!",
-            "I'll be the best Valentine ever!",
+            "Pretty please?",
+            "You're so stubborn! 😂",
+            "My best puppy eyes 🥺",
+            "You're just having fun now!",
+            "Best Valentine ever!",
             "Don't do this to Snoopy 🥺",
-            "Look at the GIF! How can you say no?",
-            "Is that your final answer?",
-            "Actually, I'm not taking no for an answer.",
+            "Look at the GIF!",
+            "Final answer?",
+            "I'm not taking no!",
             "Still clicking?",
-            "You're very persistent!",
-            "Okay, seriously now...",
-            "You're making me work for this!",
-            "I'm running out of things to say...",
-            "Is it the GIF? Do you want a different GIF?",
-            "If you click yes, I'll shout you dinner.",
-            "I'll let you win in Survivor.io!",
-            "Okay, fine. One last chance."
+            "Very persistent!",
+            "Seriously now...",
+            "Making me work for this!",
+            "Out of things to say...",
+            "Last fry is yours!",
+            "I'll carry in Survivor.io!",
+            "One last chance."
         ];
 
         noBtn.addEventListener('click', () => {
             clickCount++;
+            
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
-                let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-                noBtn.style.fontSize = (currentFontSize + 8) + "px";
-                noBtn.style.padding = (parseFloat(window.getComputedStyle(noBtn).paddingTop) + 4) + "px " + (parseFloat(window.getComputedStyle(noBtn).paddingLeft) + 8) + "px";
-                if (clickCount > 10) yesBtn.classList.add('pulse');
+                
+                // Capped Growth: Stop growing after 12 clicks to keep it mobile friendly
+                if (clickCount < 12) {
+                    let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+                    noBtn.style.fontSize = (currentFontSize + 4) + "px";
+                    noBtn.style.padding = (parseFloat(window.getComputedStyle(noBtn).paddingTop) + 2) + "px " + (parseFloat(window.getComputedStyle(noBtn).paddingLeft) + 4) + "px";
+                }
+                
+                if (clickCount > 8) yesBtn.classList.add('pulse');
             }
+
             if (clickCount > messages.length) {
                 noBtn.innerText = "OKAY YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
@@ -191,4 +200,3 @@
     </script>
 </body>
 </html>
-
