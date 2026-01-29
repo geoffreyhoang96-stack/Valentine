@@ -22,8 +22,8 @@
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
             text-align: center;
-            width: 90%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 450px;
             position: relative;
             z-index: 10;
             border: 2px solid #ffb3c1;
@@ -31,7 +31,7 @@
 
         .gif-container img {
             width: 100%;
-            max-width: 250px;
+            max-width: 200px;
             border-radius: 15px;
             margin-bottom: 15px;
         }
@@ -42,7 +42,7 @@
             color: #6c757d; 
             font-size: 1rem; 
             font-weight: bold;
-            min-height: 4rem; 
+            min-height: 5.5rem; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -53,10 +53,11 @@
         .btn-container {
             margin-top: 10px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 15px;
-            min-height: 120px;
+            min-height: 250px;
         }
 
         button {
@@ -70,8 +71,15 @@
         }
 
         #yesBtn { background: #ff4d6d; color: white; z-index: 1001; }
-        #noBtn { background: #adb5bd; color: white; z-index: 1000; position: relative; }
+        .pulse { animation: pulse-red 1.5s infinite; }
 
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+        }
+
+        #noBtn { background: #adb5bd; color: white; z-index: 1000; position: relative; }
         .hidden { display: none !important; }
 
         #success-screen {
@@ -92,7 +100,7 @@
 
     <div class="browser-card" id="main-ui">
         <div class="gif-container">
-            <img src="https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUycGp5c2w0YWZmOHpxdGkzdDdrMmFhZ3d4c2hxM2h2ZXN0ZDFrNXRjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gpqk76tiVKjn2/giphy.gif" alt="Snoopy Dance">
+            <img src="snoopy.gif" alt="Snoopy Dance">
         </div>
 
         <h1>Will you be my Valentine, Yinya?</h1>
@@ -107,11 +115,12 @@
     <div id="success-screen" class="hidden">
         <h1 style="font-size: 3rem;">🥰</h1>
         <h1>YAYYY</h1>
-        <p>I love you Yinya! ❤️</p>
+        <p>I love you such, Yinya! ❤️</p>
     </div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
         const subtext = document.getElementById('subtext');
         const mainUi = document.getElementById('main-ui');
         const success = document.getElementById('success-screen');
@@ -122,37 +131,42 @@
             "PLEASE",
             "PLEASSSSSSSSSSSSSEEEE ARE YOU SURE NO???",
             "COME ON",
-            "LOVE FOR THAT LOVE FOR THAT LOVE FOR THAT"
+            "LOVE FOR THAT LOVE FOR THAT LOVE FOR THAT",
             "Wait, think about it...",
             "What if I buy you snacks?",
+            "Unlimited hugs??",
+            "P L E A S E??????",
+            "You're being so stubborn! 😂",
+            "COME ON DAWG",
+            "Okay, now you're just having fun with this!",
+            "I'll be the best Valentine ever!",
+            "Don't do this to Snoopy 🥺",
+            "Look at the GIF! How can you say no?",
+            "Is that your final answer?",
+            "Actually, I'm not taking no for an answer.",
+            "Still clicking?",
+            "You're very persistent!",
             "Okay, seriously now...",
-            "YABA DABA DOOOOOOO"
-            "Keep clicking"
-            "HAHAHHAHAHHA PLEASE"
-            "LAST CHANCE"
-            "LAST CHANCE AGAIN"
-            "You're making me work for this!"
-            "Is that your final answer?"
+            "You're making me work for this!",
+            "I'm running out of things to say...",
+            "Is it the GIF? Do you want a different GIF?",
+            "If you click yes, I'll shout you dinner.",
+            "I'll let you win in Survivor.io!",
             "Okay, fine. One last chance."
         ];
 
         noBtn.addEventListener('click', () => {
             clickCount++;
-
-            // Handle the message cycle and growing
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
-                
                 let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-                noBtn.style.fontSize = (currentFontSize + 15) + "px";
-                noBtn.style.padding = (parseFloat(window.getComputedStyle(noBtn).paddingTop) + 10) + "px " + (parseFloat(window.getComputedStyle(noBtn).paddingLeft) + 20) + "px";
+                noBtn.style.fontSize = (currentFontSize + 8) + "px";
+                noBtn.style.padding = (parseFloat(window.getComputedStyle(noBtn).paddingTop) + 4) + "px " + (parseFloat(window.getComputedStyle(noBtn).paddingLeft) + 8) + "px";
+                if (clickCount > 10) yesBtn.classList.add('pulse');
             }
-
-            // Transform the button on the final click
             if (clickCount > messages.length) {
                 noBtn.innerText = "OKAY YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
-                // Now, when she clicks this specific button again, it triggers the celebrate function
                 noBtn.onclick = celebrate;
             }
         });
@@ -160,7 +174,6 @@
         function celebrate() {
             mainUi.style.display = 'none';
             success.classList.remove('hidden');
-            
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤️';
@@ -178,5 +191,3 @@
     </script>
 </body>
 </html>
-
-
