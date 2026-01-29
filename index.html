@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Search</title>
+    <title>For Yinya ❤️</title>
     <style>
-        /* CSS STYLES */
         body {
             margin: 0;
             height: 100vh;
@@ -13,7 +12,7 @@
             justify-content: center;
             align-items: center;
             background: #ffe5ec;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             overflow: hidden;
         }
 
@@ -63,10 +62,10 @@
             font-size: 16px;
         }
 
-        #yesBtn { background: #ff4d6d; color: white; z-index: 1000; }
+        #yesBtn { background: #ff4d6d; color: white; position: relative; z-index: 100; }
         #noBtn { background: #adb5bd; color: white; position: relative; }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
 
         #success-screen {
             text-align: center;
@@ -74,7 +73,7 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 0 50px rgba(255, 77, 109, 0.4);
-            z-index: 100;
+            z-index: 1000;
         }
 
         @keyframes floatUp {
@@ -91,23 +90,22 @@
             <div class="dot g"></div>
         </div>
         <div class="logo">💖</div>
-        <h1 id="question">Will you be my Valentine?</h1>
-        <p id="subtext">Searching for the perfect partner...</p>
+        <h1>Will you be my Valentine, Yinya?</h1>
+        <p id="subtext">I have a very important question...</p>
         
         <div class="btn-container">
-            <button id="yesBtn">Yes</button>
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
             <button id="noBtn">No</button>
         </div>
     </div>
 
     <div id="success-screen" class="hidden">
         <h1 style="font-size: 3rem;">🥰</h1>
-        <h1>I KNEW IT!</h1>
-        <p>You're stuck with me now! ❤️</p>
+        <h1>YAY! I KNEW IT!</h1>
+        <p>You've made me the happiest person ever, Yinya! ❤️</p>
     </div>
 
     <script>
-        /* JAVASCRIPT LOGIC */
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const subtext = document.getElementById('subtext');
@@ -117,35 +115,28 @@
         let clickCount = 0;
         const messages = [
             "Wait, what?",
-            "Are you sure? 🥺",
+            "Are you sure, Yinya? 🥺",
             "Think about the snacks!",
             "I'll be very sad...",
             "REALLY? Last chance!",
             "Okay, that's it."
         ];
 
-        // The logic for the "No" button
         noBtn.addEventListener('click', () => {
             clickCount++;
 
-            // Update subtext
             if (clickCount < messages.length) {
                 subtext.innerText = messages[clickCount];
             }
 
             // Make the YES button bigger
             let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-            yesBtn.style.fontSize = (currentSize + 20) + "px";
-            yesBtn.style.padding = (currentSize + 10) + "px " + (currentSize + 30) + "px";
+            yesBtn.style.fontSize = (currentSize + 15) + "px";
+            yesBtn.style.padding = (currentSize + 5) + "px " + (currentSize + 20) + "px";
 
             // Teleport the No button
             const maxX = window.innerWidth - noBtn.offsetWidth;
             const maxY = window.innerHeight - noBtn.offsetHeight;
             noBtn.style.position = "fixed";
             noBtn.style.left = Math.random() * maxX + "px";
-            noBtn.style.top = Math.random() * maxY + "px";
-
-            // If they click it 6 times, it becomes Yes
-            if (clickCount >= 6) {
-                noBtn.innerText = "Yes";
-                noBtn.style.backgroundColor = "#ff
+            noBtn.style.top = Math
