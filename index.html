@@ -41,7 +41,7 @@
 
         .gif-container img {
             width: 100%;
-            max-width: 280px;
+            max-width: 250px;
             border-radius: 15px;
             margin-top: 10px;
         }
@@ -108,7 +108,7 @@
         </div>
         
         <div class="gif-container">
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUycGp5c2w0YWZmOHpxdGkzdDdrMmFhZ3d4c2hxM2h2ZXN0ZDFrNXRjYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gpqk76tiVKjn2/giphy.gif" alt="Snoopy Dance">
+            <img src="https://media.tenor.com/97S9iP_6_8AAAAAi/snoopy-dance.gif" alt="Snoopy Dance">
         </div>
 
         <h1>Will you be my Valentine, Yinya?</h1>
@@ -145,10 +145,12 @@
         noBtn.addEventListener('click', () => {
             clickCount++;
 
+            // Update subtext messages
             if (clickCount <= messages.length) {
                 subtext.innerText = messages[clickCount - 1];
             }
 
+            // GROW the No button
             let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
             let currentPaddingV = parseFloat(window.getComputedStyle(noBtn).paddingTop);
             let currentPaddingH = parseFloat(window.getComputedStyle(noBtn).paddingLeft);
@@ -156,6 +158,7 @@
             noBtn.style.fontSize = (currentFontSize + 15) + "px";
             noBtn.style.padding = (currentPaddingV + 10) + "px " + (currentPaddingH + 20) + "px";
 
+            // If she clicks past the last message, it forces the Yes
             if (clickCount > messages.length) {
                 noBtn.innerText = "OKAY YES! ❤️";
                 noBtn.style.backgroundColor = "#ff4d6d";
@@ -167,6 +170,7 @@
             mainUi.style.display = 'none';
             success.classList.remove('hidden');
             
+            // Start the heart shower
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤️';
