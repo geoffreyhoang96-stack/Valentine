@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Search</title>
+    <style>
+        /* CSS STYLES */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffe5ec;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .browser-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            text-align: center;
+            width: 350px;
+            position: relative;
+            z-index: 10;
+            border: 2px solid #ffb3c1;
+        }
+
+        .header-bar {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .r { background: #ff5f56; } .y { background: #ffbd2e; } .g { background: #27c93f; }
+
+        .logo { font-size: 50px; margin-top: 10px; }
+        h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; }
+        #subtext { color: #6c757d; font-size: 0.9rem; min-height: 1.2rem; }
+
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 100px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+
+        #yesBtn { background: #ff4d6d; color: white; z-index: 1000; }
+        #noBtn { background: #adb5bd; color: white; position: relative; }
+
+        .hidden { display: none; }
+
+        #success-screen {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 77, 109, 0.4);
+            z-index: 100;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="browser-card" id="main-ui">
+        <div class="header-bar">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+        </div>
+        <div class="logo">💖</div>
+        <h1 id="question">Will you be my Valentine?</h1>
+        <p id="subtext">Searching for the perfect partner...</p>
+        
+        <div class="btn-container">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div id="success-screen" class="hidden">
+        <h1 style="font-size: 3rem;">🥰</h1>
+        <h1>I KNEW IT!</h1>
+        <p>You're stuck with me now! ❤️</p>
+    </div>
+
+    <script>
+        /* JAVASCRIPT LOGIC */
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const subtext = document.getElementById('subtext');
+        const mainUi = document.getElementById('main-ui');
+        const success = document.getElementById('success-screen');
+
+        let clickCount = 0;
+        const messages = [
+            "Wait, what?",
+            "Are you sure? 🥺",
+            "Think about the snacks!",
+            "I'll be very sad...",
+            "REALLY? Last chance!",
+            "Okay, that's it."
+        ];
+
+        // The logic for the "No" button
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+
+            // Update subtext
+            if (clickCount < messages.length) {
+                subtext.innerText = messages[clickCount];
+            }
+
+            // Make the YES button bigger
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 20) + "px";
+            yesBtn.style.padding = (currentSize + 10) + "px " + (currentSize + 30) + "px";
+
+            // Teleport the No button
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+            noBtn.style.position = "fixed";
+            noBtn.style.left = Math.random() * maxX + "px";
+            noBtn.style.top = Math.random() * maxY + "px";
+
+            // If they click it 6 times, it becomes Yes
+            if (clickCount >= 6) {
+                noBtn.innerText = "Yes";
+                noBtn.style.backgroundColor = "#ff
